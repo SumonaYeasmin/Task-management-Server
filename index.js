@@ -42,13 +42,20 @@ async function run() {
             res.send(result);
         })
 
-              // Get All Task
-              app.get('/all-task', async (req, res) => {
-                const result = await tasksCollection.find().toArray();
-                res.send(result);
-            })
+        // Store task to the database
+        app.post('/all-task', async (req, res) => {
+            const task = req.body;
+            const result = await tasksCollection.insertOne(task);
+            res.send(result);
+        })
 
-                // Specific Users All Tasks
+        // Get All Task
+        app.get('/all-task', async (req, res) => {
+            const result = await tasksCollection.find().toArray();
+            res.send(result);
+        })
+
+        // Specific Users All Tasks
         app.get('/all-task/:email', async (req, res) => {
             const email = req.params.email;
             const query = { userEmail: email };
