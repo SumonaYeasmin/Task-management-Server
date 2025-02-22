@@ -27,6 +27,7 @@ async function run() {
         await client.connect();
 
         const usersCollection = client.db('taskManagement').collection('users');
+        const tasksCollection = client.db('taskManagement').collection('all-task');
 
         // Get All Users
         app.get('/users', async (req, res) => {
@@ -40,6 +41,12 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             res.send(result);
         })
+
+              // Get All Task
+              app.get('/all-task', async (req, res) => {
+                const result = await tasksCollection.find().toArray();
+                res.send(result);
+            })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
